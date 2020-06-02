@@ -98,13 +98,12 @@ def passeJoueurSuivant(jeu):
 
 
 def piocheJoueurCourant(jeu):
-    return jeu[str(indiceJoueur(jeu))][1]
+    return Joueur.pioche(jeu[str(indiceJoueur(jeu))])
 # Etape 5.2
 
 
 def joue(jeu):
     Fenetre.quandOuverte(fenetre(jeu), majVues, jeu)
-    # Fenetre.quandBoutonAppuye(fenetre(jeu), boutonAppuye, jeu)
     Fenetre.quandDeplacement(fenetre(jeu), deplacement, jeu)
     Fenetre.quandBoutonRelache(fenetre(jeu), relachement, jeu)
     Fenetre.affiche(fenetre(jeu))
@@ -117,17 +116,6 @@ def majVues(jeu):
     VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), False)
 
 # Etape 5.3
-
-
-def boutonAppuye(fenetre, event):
-    x, y = event.x, event.y
-    objet = fenetre[2].find_closest(newx, newx)
-    tag = fenetre[2].gettags(objet)
-    num = tag[0]
-    # recup x/y et num planchette à cette position
-    if num != None:
-        etat = "planchette sélectionnée"
-        print(etat)
 
 
 def deplacement(fenetre, event):
@@ -153,9 +141,9 @@ def relachement(fenetre, event, jeu):
     Pioche.retire(pioche, selection)
     decalage = 2
     Pile.empileEtCalcule(jeu["pile"], selection, decalage)
+    Pioche.retire(pioche, tag)
     passeJoueurSuivant(jeu)
     print("joueur suivant")
-    # supression de la planchette dan sla pioche du joueur
     majVues(jeu)
     sauvegarde(jeu)
 
