@@ -79,15 +79,20 @@ def saisisFlottant(fenetre, message):
     return askfloat("", message)
 
 
-def quandBoutonAppuye(tag, fenetre, fonction):
+def quandBoutonAppuye(fenetre, fonction, jeu):
+    toile(fenetre).bind("<Button-1>",
+                        (lambda event: fonction(fenetre, event)))
+
+
+def quandDeplacement(fenetre, fonction, jeu):
+    toile(fenetre).bind("<B1-Motion>",
+                        (lambda event: fonction(fenetre, event)))
+
+
+def quandBoutonRelache(fenetre, fonction, jeu):
     toile(fenetre).bind("<ButtonRelease-1>",
-                        (lambda event: fonction(tag, fenetre, event)))
+                        (lambda event: fonction(fenetre, event, jeu)))
 
 
-def quandDeplacement(fenetre, fonction):
-    toile(fenetre).bind("<ButtonRelease-1>",
-                        (lambda event: fonction(tag, fenetre, event)))
-
-
-def clicDeplacement(fenetre, fonction):
-    toile(fenetre).bind("<B1-Motion>", (lambda event: fonction(fenetre, event)))
+"""def clicDeplacement(fenetre, fonction, tag):
+    toile(fenetre).bind("<B1-Motion>", (lambda event: fonction(fenetre, event)))"""

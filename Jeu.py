@@ -102,7 +102,7 @@ def passeJoueurSuivant(jeu):
 
 def joue(jeu):
     Fenetre.quandOuverte(fenetre(jeu), majVues, jeu)
-    Fenetre.quandBoutonAppuye(fenetre(jeu), boutonAppuye, jeu)
+    #Fenetre.quandBoutonAppuye(fenetre(jeu), boutonAppuye, jeu)
     Fenetre.quandDeplacement(fenetre(jeu), deplacement, jeu)
     Fenetre.quandBoutonRelache(fenetre(jeu), relachement, jeu)
     Fenetre.affiche(fenetre(jeu))
@@ -130,17 +130,18 @@ def boutonAppuye(fenetre, event):
 
 def deplacement(fenetre, event):
     print("deplacement ...")
-    newx, newy = event.x, event.y
-    objet = fenetre[2].find_closest(newx, newx)
+    x, y = event.x, event.y
+    objet = fenetre[2].find_closest(x, y)
     print(objet[0])
-    # tag = fenetre[2].itemcget(objet[0], 'tag')
-    fenetre[2].coords(objet[0], newx, newy, newx+200, newy+10)
-    Fenetre.simpleClic(objet[0], fenetre, quandClic)
+    x1, y1, x2, y2 = fenetre[2].coords(objet[0])
+    xcenter = (x1 + x2)//2
+    ycenter = (y1 + y2)//2
+    fenetre[2].move(objet[0], x-xcenter, y-ycenter)
 
-
-def relachement(jeu, fenetre, event):
+def relachement(fenetre, event, jeu):
+    
     sauvegarde(jeu)
-    pass
+    print("pose")
 
 
 def quandClic(objet, fenetre, event):
