@@ -122,7 +122,6 @@ def deplacement(fenetre, event):
     print("deplacement ...")
     x, y = event.x, event.y
     objet = fenetre[2].find_closest(x, y)
-    print(objet[0])
     x1, y1, x2, y2 = fenetre[2].coords(objet[0])
     xcenter = (x1 + x2)//2
     ycenter = (y1 + y2)//2
@@ -133,13 +132,21 @@ def relachement(fenetre, event, jeu):
     print("pose")
     x, y = event.x, event.y
     objet = fenetre[2].find_closest(x, y)
+    x1, y1, x2, y2 = fenetre[2].coords(objet[0])
+    xcenter = (x1 + x2)//2
     tag = fenetre[2].gettags(objet)[0]
     longueur = int(tag[0])+int(tag[1]) + int(tag[2])
     marge = int(tag[0])
     pioche = piocheJoueurCourant(jeu)
     selection = Planchette.cree(longueur, marge)
     Pioche.retire(pioche, selection)
-    decalage = 2
+    largeurFenetre = 1000/10
+    if Pile.sommet(pile(jeu)) is None:
+        decalage = xcenter/10 - largeurFenetre/2
+    else:
+        abssommet = Pile.sommet(pile(jeu))['abscisse']
+        print(abssommet)
+        decalage = (xcenter/10-largeurFenetre/2) - abssommet
     Pile.empileEtCalcule(jeu["pile"], selection, decalage)
     Pioche.retire(pioche, tag)
     passeJoueurSuivant(jeu)
