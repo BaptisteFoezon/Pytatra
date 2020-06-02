@@ -63,7 +63,6 @@ def majVues(jeu):
 
 
 # Etape 5.1
-selection = ""
 
 
 def cree():
@@ -97,12 +96,15 @@ def joueurCourant(jeu):
 def passeJoueurSuivant(jeu):
     jeu["courant"] = int(not jeu["courant"])
 
+
+def piocheJoueurCourant(jeu):
+    return jeu[str(indiceJoueur(jeu))][1]
 # Etape 5.2
 
 
 def joue(jeu):
     Fenetre.quandOuverte(fenetre(jeu), majVues, jeu)
-    #Fenetre.quandBoutonAppuye(fenetre(jeu), boutonAppuye, jeu)
+    # Fenetre.quandBoutonAppuye(fenetre(jeu), boutonAppuye, jeu)
     Fenetre.quandDeplacement(fenetre(jeu), deplacement, jeu)
     Fenetre.quandBoutonRelache(fenetre(jeu), relachement, jeu)
     Fenetre.affiche(fenetre(jeu))
@@ -138,44 +140,24 @@ def deplacement(fenetre, event):
     ycenter = (y1 + y2)//2
     fenetre[2].move(objet[0], x-xcenter, y-ycenter)
 
+
 def relachement(fenetre, event, jeu):
-    
-    sauvegarde(jeu)
-    print("pose")
-
-
-def quandClic(objet, fenetre, event):
-    print(objet)
-    tag = fenetre[2].gettags(objet)
-    tag = tag[0]
-    fenetre = fenetre[2]
     print("pose")
     x, y = event.x, event.y
-    longueur = int(tag[0]) + \
-        int(tag[1])+int(tag[2])
+    objet = fenetre[2].find_closest(x, y)
+    tag = fenetre[2].gettags(objet)[0]
+    longueur = int(tag[0])+int(tag[1]) + int(tag[2])
     marge = int(tag[0])
+    pioche = piocheJoueurCourant(jeu)
     selection = Planchette.cree(longueur, marge)
-    decalage = y - Fenetre.largeur(fenetre(jeu))
+    Pioche.retire(pioche, selection)
+    decalage = 2
     Pile.empileEtCalcule(jeu["pile"], selection, decalage)
-    sauvegarde(jeu, True)
-
-
-def selectionnePlanchette(jeu):
-    selection = Fenetre.saisisTexte(
-        fenetre(jeu), "saississez votre planchette")
-    while selection is None:
-        selection = Fenetre.saisisTexte(
-            fenetre(jeu), "saississez votre planchette")
-    if selection is not None:
-        return selection
-
-
-def choisisDecalage(jeu, planchetteAPoser):
-    decalage = Fenetre.saisisEntier(fenetre(jeu), "decalage")
-    while decalage is None:
-        decalage = Fenetre.saisisEntier(fenetre(jeu), "decalage")
-    if decalage is not None:
-        return decalage
+    passeJoueurSuivant(jeu)
+    print("joueur suivant")
+    # supression de la planchette dan sla pioche du joueur
+    majVues(jeu)
+    sauvegarde(jeu)
 
 
 def sauvegarde(jeu, fin=False):
