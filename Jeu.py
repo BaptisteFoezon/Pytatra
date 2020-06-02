@@ -122,6 +122,8 @@ def deplacement(fenetre, event):
     print("deplacement ...")
     x, y = event.x, event.y
     objet = fenetre[2].find_closest(x, y)
+    tag = fenetre[2].gettags(objet)
+    print(tag)
     x1, y1, x2, y2 = fenetre[2].coords(objet[0])
     xcenter = (x1 + x2)//2
     ycenter = (y1 + y2)//2
