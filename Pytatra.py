@@ -5,7 +5,6 @@ import json
 
 print("Test du jeux avec drag and drop")
 
-
 def newGame():
     jeu = Jeu.cree()
     Jeu.joue(jeu)

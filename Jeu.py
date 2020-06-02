@@ -61,38 +61,101 @@ def majVues(jeu):
     VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), True)
     VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), False)
 
+
+# Etape 5.1
+selection = ""
+
+
+def cree():
+    return {"fenetre": Fenetre.cree(1000, 600),
+            "pile": Pile.cree(),
+            "0": Joueur.cree(0),
+            "1": Joueur.cree(1),
+            "courant": 0}
+
+
+def fenetre(jeu):
+    return jeu["fenetre"]
+
+
+def pile(jeu):
+    return jeu["pile"]
+
+
+def joueurs(jeu):
+    return (jeu["0"], jeu["1"])
+
+
+def indiceJoueur(jeu):
+    return jeu["courant"]
+
+
+def joueurCourant(jeu):
+    return jeu[str(indiceJoueur(jeu))]
+
+
+def passeJoueurSuivant(jeu):
+    jeu["courant"] = int(not jeu["courant"])
+
+# Etape 5.2
+
+
+def joue(jeu):
+    Fenetre.quandOuverte(fenetre(jeu), majVues, jeu)
+    Fenetre.quandBoutonAppuye(fenetre(jeu), boutonAppuye, jeu)
+    Fenetre.quandDeplacement(fenetre(jeu), deplacement, jeu)
+    Fenetre.quandBoutonRelache(fenetre(jeu), relachement, jeu)
+    Fenetre.affiche(fenetre(jeu))
+
+
+def majVues(jeu):
+    Fenetre.effaceGraphiques(fenetre(jeu))
+    VuePile.dessine(fenetre(jeu), pile(jeu))
+    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), True)
+    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), False)
+
 # Etape 5.3
 
 
-def activite(jeu):
-    global selection
-    desequilibre = False
-    while True:
-        joueur = indiceJoueur(jeu)
-        print(Pile.sommet(pile(jeu)))
-        pioche = jeu[str(joueur)][1]
-        if pioche and not desequilibre:
-            print("c'est au joueur n° {} de jouer ".format(joueur))
-            selection = selectionnePlanchette(jeu)
-            if Pioche.contient(pioche, selection) is False:
-                while Pioche.contient(pioche, selection) is False:
-                    selection = selectionnePlanchette(jeu)
-            longueur = int(selection[0]) + \
-                int(selection[1])+int(selection[2])
-            marge = int(selection[0])
-            selection = Planchette.cree(longueur, marge)
-            Pioche.retire(pioche, selection)
-            decalage = choisisDecalage(jeu, selection)
-            Pile.empileEtCalcule(jeu["pile"], selection, decalage)
-            desequilibre = Pile.sommet(pile(jeu))["desequilibre"]
-            passeJoueurSuivant(jeu)
-            selection = ""
-            sauvegarde(jeu)
-        else:
-            print("le joueur n° {} a perdu ".format(joueur))
-            break
-        majVues(jeu)
-    print("fin du jeux le joueur n°{} a gagné".format(indiceJoueur(jeu)))
+def boutonAppuye(fenetre, event):
+    x, y = event.x, event.y
+    objet = fenetre[2].find_closest(newx, newx)
+    tag = fenetre[2].gettags(objet)
+    num = tag[0]
+    # recup x/y et num planchette à cette position
+    if num != None:
+        etat = "planchette sélectionnée"
+        print(etat)
+
+
+def deplacement(fenetre, event):
+    print("deplacement ...")
+    newx, newy = event.x, event.y
+    objet = fenetre[2].find_closest(newx, newx)
+    print(objet[0])
+    # tag = fenetre[2].itemcget(objet[0], 'tag')
+    fenetre[2].coords(objet[0], newx, newy, newx+200, newy+10)
+    Fenetre.simpleClic(objet[0], fenetre, quandClic)
+
+
+def relachement(jeu, fenetre, event):
+    sauvegarde(jeu)
+    pass
+
+
+def quandClic(objet, fenetre, event):
+    print(objet)
+    tag = fenetre[2].gettags(objet)
+    tag = tag[0]
+    fenetre = fenetre[2]
+    print("pose")
+    x, y = event.x, event.y
+    longueur = int(tag[0]) + \
+        int(tag[1])+int(tag[2])
+    marge = int(tag[0])
+    selection = Planchette.cree(longueur, marge)
+    decalage = y - Fenetre.largeur(fenetre(jeu))
+    Pile.empileEtCalcule(jeu["pile"], selection, decalage)
     sauvegarde(jeu, True)
 
 

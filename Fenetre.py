@@ -79,8 +79,15 @@ def saisisFlottant(fenetre, message):
     return askfloat("", message)
 
 
-"""def menu(fenetre):
-    menuBar = Menu(tk(fenetre))
-    tk(fenetre).config(menu=menuBar)
-    menufichier = Menu(menuBar, tearoff=0)
-    menuBar.add_cascade(label="Fichier", menu=menufichier)"""
+def quandBoutonAppuye(tag, fenetre, fonction):
+    toile(fenetre).bind("<ButtonRelease-1>",
+                        (lambda event: fonction(tag, fenetre, event)))
+
+
+def quandDeplacement(fenetre, fonction):
+    toile(fenetre).bind("<ButtonRelease-1>",
+                        (lambda event: fonction(tag, fenetre, event)))
+
+
+def clicDeplacement(fenetre, fonction):
+    toile(fenetre).bind("<B1-Motion>", (lambda event: fonction(fenetre, event)))
