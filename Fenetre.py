@@ -85,7 +85,7 @@ def quandClick(fenetre, fonction, jeu):
 
 def quandDeplacement(fenetre, fonction, jeu):
     toile(fenetre).bind("<B1-Motion>",
-                        (lambda event: fonction(fenetre, event)))
+                        (lambda event: fonction(fenetre, event, jeu)))
 
 
 def quandBoutonRelache(fenetre, fonction, jeu):

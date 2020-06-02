@@ -22,8 +22,12 @@ def cree():
             "selection": ''}
 
 
-def selection(jeu):
+def getSelection(jeu):
     return jeu["selection"]
+
+
+def setSelection(jeu, selection):
+    jeu["selection"] = selection
 
 
 def fenetre(jeu):
@@ -73,8 +77,8 @@ def verification(jeu):
 def majVues(jeu):
     Fenetre.effaceGraphiques(fenetre(jeu))
     VuePile.dessine(fenetre(jeu), pile(jeu))
-    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), True)
-    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), False)
+    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), 1)
+    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), 0)
 
 
 # Etape 5.3
@@ -83,19 +87,12 @@ def click(fenetre, event, jeu):
     x, y = event.x, event.y
     objet = fenetre[2].find_closest(x, y)
     tag = fenetre[2].gettags(objet)
-    print("{} = {}".format(tag[1], indiceJoueur(jeu)))
-    if not(tag[1]) == indiceJoueur(jeu):
-        print("clique sur la bonne pioche")
-    else:
-        print("ce n'est pas votre pioche")
-        Fenetre.afficheMessage(fenetre, "ce n'est pas votre pioche")
+    setSelection(jeu, objet)
 
 
-def deplacement(fenetre, event):
-    print("deplacement ...")
+def deplacement(fenetre, event, jeu):
     x, y = event.x, event.y
-    objet = fenetre[2].find_closest(x, y)
-    tag = fenetre[2].gettags(objet)
+    objet = getSelection(jeu)
     x1, y1, x2, y2 = fenetre[2].coords(objet[0])
     xcenter = (x1 + x2)//2
     ycenter = (y1 + y2)//2
@@ -109,11 +106,8 @@ def relachement(fenetre, event, jeu):
     x1, y1, x2, y2 = fenetre[2].coords(objet[0])
     xcenter = (x1 + x2)//2
     tag = fenetre[2].gettags(objet)[0]
-    longueur = int(tag[0])+int(tag[1]) + int(tag[2])
-    marge = int(tag[0])
-    pioche = piocheJoueurCourant(jeu)
-    selection = Planchette.cree(longueur, marge)
-    Pioche.retire(pioche, selection)
+    selection = tagToPlanch(tag)
+    Pioche.retire(piocheJoueurCourant(jeu), selection)
     largeurFenetre = 1000/10
     if Pile.sommet(pile(jeu)) is None:
         decalage = xcenter/10 - largeurFenetre/2
@@ -122,16 +116,28 @@ def relachement(fenetre, event, jeu):
         print(abssommet)
         decalage = (xcenter/10-largeurFenetre/2) - abssommet
     Pile.empileEtCalcule(jeu["pile"], selection, decalage)
-    Pioche.retire(pioche, tag)
+    Pioche.retire(piocheJoueurCourant(jeu), tag)
     passeJoueurSuivant(jeu)
-    print("joueur suivant")
+    disablePioche(fenetre, indiceJoueur(jeu))
     majVues(jeu)
     sauvegarde(jeu)
     verification(jeu)
 
 
+def disablePioche(fenetre, joueur):
+    # descative la pioche du joueur qui ne joue pas
+    pass
+
+
+def tagToPlanch(tag):
+    longueur = int(tag[0])+int(tag[1]) + int(tag[2])
+    marge = int(tag[0])
+    return Planchette.cree(longueur, marge)
+
+
 def sauvegarde(jeu, fin=False):
     """on sauvegarde l'etat de la partie apres chaque tout de jeux"""
+    print('sauvegarde')
     if not fin:
         jeu_copie = {}
         for key in jeu:
