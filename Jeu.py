@@ -12,65 +12,18 @@ import json
 
 # Etape 5.1
 
-selection = ""
-
 
 def cree():
     return {"fenetre": Fenetre.cree(1000, 600),
             "pile": Pile.cree(),
             "0": Joueur.cree(0),
             "1": Joueur.cree(1),
-            "courant": 0}
+            "courant": 0,
+            "selection": ''}
 
 
-def fenetre(jeu):
-    return jeu["fenetre"]
-
-
-def pile(jeu):
-    return jeu["pile"]
-
-
-def joueurs(jeu):
-    return (jeu["0"], jeu["1"])
-
-
-def indiceJoueur(jeu):
-    return jeu["courant"]
-
-
-def joueurCourant(jeu):
-    return jeu[str(indiceJoueur(jeu))]
-
-
-def passeJoueurSuivant(jeu):
-    jeu["courant"] = int(not jeu["courant"])
-
-# Etape 5.2
-
-
-def joue(jeu):
-    majVues(jeu)
-    Fenetre.quandOuverte(fenetre(jeu), activite, jeu)
-    Fenetre.affiche(fenetre(jeu))
-
-
-def majVues(jeu):
-    Fenetre.effaceGraphiques(fenetre(jeu))
-    VuePile.dessine(fenetre(jeu), pile(jeu))
-    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), True)
-    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), False)
-
-
-# Etape 5.1
-
-
-def cree():
-    return {"fenetre": Fenetre.cree(1000, 600),
-            "pile": Pile.cree(),
-            "0": Joueur.cree(0),
-            "1": Joueur.cree(1),
-            "courant": 0}
+def selection(jeu):
+    return jeu["selection"]
 
 
 def fenetre(jeu):
@@ -104,9 +57,17 @@ def piocheJoueurCourant(jeu):
 
 def joue(jeu):
     Fenetre.quandOuverte(fenetre(jeu), majVues, jeu)
+    Fenetre.quandClick(fenetre(jeu), click, jeu)
     Fenetre.quandDeplacement(fenetre(jeu), deplacement, jeu)
     Fenetre.quandBoutonRelache(fenetre(jeu), relachement, jeu)
     Fenetre.affiche(fenetre(jeu))
+
+
+def verification(jeu):
+    if not piocheJoueurCourant(jeu):
+        print("EndGAme")
+    else:
+        print("continue")
 
 
 def majVues(jeu):
@@ -115,7 +76,19 @@ def majVues(jeu):
     VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), True)
     VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), False)
 
+
 # Etape 5.3
+def click(fenetre, event, jeu):
+    print("click")
+    x, y = event.x, event.y
+    objet = fenetre[2].find_closest(x, y)
+    tag = fenetre[2].gettags(objet)
+    print("{} = {}".format(tag[1], indiceJoueur(jeu)))
+    if not(tag[1]) == indiceJoueur(jeu):
+        print("clique sur la bonne pioche")
+    else:
+        print("ce n'est pas votre pioche")
+        Fenetre.afficheMessage(fenetre, "ce n'est pas votre pioche")
 
 
 def deplacement(fenetre, event):
@@ -123,7 +96,6 @@ def deplacement(fenetre, event):
     x, y = event.x, event.y
     objet = fenetre[2].find_closest(x, y)
     tag = fenetre[2].gettags(objet)
-    print(tag)
     x1, y1, x2, y2 = fenetre[2].coords(objet[0])
     xcenter = (x1 + x2)//2
     ycenter = (y1 + y2)//2
@@ -155,6 +127,7 @@ def relachement(fenetre, event, jeu):
     print("joueur suivant")
     majVues(jeu)
     sauvegarde(jeu)
+    verification(jeu)
 
 
 def sauvegarde(jeu, fin=False):

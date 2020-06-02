@@ -1,7 +1,6 @@
 from tkinter import *
-from tkinter.messagebox import *
+from tkinter import messagebox
 from tkinter.simpledialog import *
-
 # Etape 2
 
 Titre = 'Pytatra!'
@@ -50,7 +49,7 @@ def effaceGraphiques(fenetre):
 
 
 def afficheMessage(fenetre, message):
-    toile(fenetre).showinfo(" ", message)
+    messagebox.showinfo("", message)
 
 
 def saisisTexte(fenetre, message):
@@ -79,9 +78,9 @@ def saisisFlottant(fenetre, message):
     return askfloat("", message)
 
 
-def quandBoutonAppuye(fenetre, fonction, jeu):
+def quandClick(fenetre, fonction, jeu):
     toile(fenetre).bind("<Button-1>",
-                        (lambda event: fonction(fenetre, event)))
+                        (lambda event: fonction(fenetre, event, jeu)))
 
 
 def quandDeplacement(fenetre, fonction, jeu):
