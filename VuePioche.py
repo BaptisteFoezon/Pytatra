@@ -7,7 +7,7 @@ import Fenetre
 import VuePlanchette
 
 
-def dessine(fenetre, pioche, gauche):
+def dessine(fenetre, pioche, gauche=None):
     marge = 70
     y = Fenetre.hauteur(fenetre) - 40 - Planchette.Epaisseur
     for planchette in reversed(pioche):
@@ -16,14 +16,14 @@ def dessine(fenetre, pioche, gauche):
         planchette = Planchette.cree(sum(planchette), planchette[0])
         if gauche:
             VuePlanchette.dessine(fenetre, planchette,
-                                  marge, y)
+                                  marge, y, gauche)
             Fenetre.toile(fenetre).create_text(
                 marge/2, y, text=txt)
         else:
             lg = VuePlanchette.pixels(Planchette.longueur(planchette))
             x = Fenetre.largeur(fenetre) - marge - lg
             VuePlanchette.dessine(fenetre, planchette, x,
-                                  y)
+                                  y, gauche)
             Fenetre.toile(fenetre).create_text(
                 (Fenetre.largeur(fenetre))-marge/2, y, text=txt)
         y -= 20
