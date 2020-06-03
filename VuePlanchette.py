@@ -10,7 +10,7 @@ def pixels(cm):
     return cm*10
 
 
-def dessine(fenetre, planchette, x0, y0, joueur=None):
+def dessine(fenetre, planchette, x0, y0, color="blue"):
     """
 
     """
@@ -22,6 +22,6 @@ def dessine(fenetre, planchette, x0, y0, joueur=None):
     Fenetre.toile(fenetre).create_rectangle(
         x0, y0, x0+marge, y0+eppaisseur, fill="grey")
     Fenetre.toile(fenetre).create_rectangle(x0+marge, y0, x0 +
-                                            marge+longueur, y0+eppaisseur, fill="blue", tags=(Planchette.numero(planchette), joueur))
+                                            marge+longueur, y0+eppaisseur, fill=color, tag=Planchette.numero(planchette))
     Fenetre.toile(fenetre).create_rectangle(x0+marge+longueur, y0,
                                             x0+marge+longueur+marge, y0+eppaisseur, fill="grey")

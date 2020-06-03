@@ -5,6 +5,10 @@ import json
 import webbrowser
 
 
+def callback(event):
+    webbrowser.open_new(r"https://github.com/BaptisteFoezon/Pytatra")
+
+
 def newGame():
     jeu = Jeu.cree()
     Jeu.joue(jeu)
@@ -22,7 +26,8 @@ def loadGame():
     Jeu.joue(jeu)
 
 
-welcomePage = Fenetre.cree(350, 105)
+welcomePage = Fenetre.cree(350, 150)
+canvas = Fenetre.toile(welcomePage)
 text = Label(canvas, text="PYTATRA")
 text.pack()
 boutons1 = Button(canvas, text="Nouvelle partie",

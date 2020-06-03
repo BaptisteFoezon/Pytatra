@@ -59,6 +59,26 @@ def piocheJoueurCourant(jeu):
 # Etape 5.2
 
 
+def getlongueur(selection):
+    """ retourne la longeur de la planchette selectionner """
+    return int(selection[0]) + int(selection[1])+int(selection[2])
+
+
+def getMarge(selection):
+    """ retourne la marge de la planchette selectionner """
+    return int(selection[0])
+
+
+def colorPlayer(jeu):
+    """
+    retourne la couleur du joueur actuel
+    """
+    if indiceJoueur(jeu) == 0:
+        return "blue"
+    else:
+        return "red"
+
+
 def joue(jeu):
     Fenetre.quandOuverte(fenetre(jeu), majVues, jeu)
     Fenetre.quandClick(fenetre(jeu), click, jeu)
@@ -77,8 +97,8 @@ def verification(jeu):
 def majVues(jeu):
     Fenetre.effaceGraphiques(fenetre(jeu))
     VuePile.dessine(fenetre(jeu), pile(jeu))
-    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), 1)
-    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), 0)
+    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), 1, "blue")
+    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), 0, "red")
 
 
 # Etape 5.3
@@ -101,6 +121,7 @@ def deplacement(fenetre, event, jeu):
 
 def relachement(fenetre, event, jeu):
     print("pose")
+    color = colorPlayer(jeu)
     x, y = event.x, event.y
     objet = fenetre[2].find_closest(x, y)
     x1, y1, x2, y2 = fenetre[2].coords(objet[0])
@@ -115,18 +136,12 @@ def relachement(fenetre, event, jeu):
         abssommet = Pile.sommet(pile(jeu))['abscisse']
         print(abssommet)
         decalage = (xcenter/10-largeurFenetre/2) - abssommet
-    Pile.empileEtCalcule(jeu["pile"], selection, decalage)
+    Pile.empileEtCalcule(jeu["pile"], selection, decalage, color)
     Pioche.retire(piocheJoueurCourant(jeu), tag)
     passeJoueurSuivant(jeu)
-    disablePioche(fenetre, indiceJoueur(jeu))
     majVues(jeu)
     sauvegarde(jeu)
     verification(jeu)
-
-
-def disablePioche(fenetre, joueur):
-    # descative la pioche du joueur qui ne joue pas
-    pass
 
 
 def tagToPlanch(tag):

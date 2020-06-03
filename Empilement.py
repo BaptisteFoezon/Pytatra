@@ -1,13 +1,14 @@
 import Planchette
 
 
-def cree(planchette, centre):
+def cree(planchette, centre, color="blue"):
     return {
         "planchette": planchette,
         "masse": Planchette.longueur(planchette),
         "abscisse": centre,
         "centre_grav": centre,
         "desequilibre": False,
+        "color": color,
     }
 
 
@@ -35,6 +36,10 @@ def desequilibre(empilement, valeur=None):
     if valeur is not None:
         empilement["desequilibre"] = valeur
     return empilement["desequilibre"]
+
+
+def color(empilement):
+    return empilement["color"]
 
 
 def versChaine(empilement):

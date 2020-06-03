@@ -14,7 +14,8 @@ def dessine(fenetre, pile):
         planchette = Empilement.planchette(empilement)
         x = VuePlanchette.pixels(x0) + Fenetre.largeur(fenetre)/2
         y = Fenetre.hauteur(fenetre) - VuePlanchette.pixels(y0) - 40
-        VuePlanchette.dessine(fenetre,  planchette, x, y)
+        VuePlanchette.dessine(fenetre,  planchette, x, y,
+                              Empilement.color(empilement))
         x1 = VuePlanchette.pixels(Empilement.centreGravite(
             empilement)) + Fenetre.largeur(fenetre)/2
         y1 = y + VuePlanchette.pixels(Planchette.Epaisseur / 2)

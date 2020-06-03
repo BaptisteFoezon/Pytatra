@@ -49,4 +49,3 @@ def retire(pioche, numero):
         pioche[str(numero)] -= 1
     if contient(pioche, numero) and pioche[str(numero)] == 0:
         del pioche[str(numero)]
-    print(pioche)
