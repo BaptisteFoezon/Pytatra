@@ -1,3 +1,4 @@
+# coding: utf-8
 import Jeu
 import Joueur
 
@@ -11,6 +12,6 @@ print('indiceJoueur=' + str(Jeu.indiceJoueur(j)))
 print('joueurCourant=' + Joueur.nom(Jeu.joueurCourant(j)))
 
 for i in range(2):
-	Jeu.passeJoueurSuivant(j)
-	print('indiceJoueur=' + str(Jeu.indiceJoueur(j)))
-	print('joueurCourant=' + Joueur.nom(Jeu.joueurCourant(j)))
+    Jeu.passeJoueurSuivant(j)
+    print('indiceJoueur=' + str(Jeu.indiceJoueur(j)))
+    print('joueurCourant=' + Joueur.nom(Jeu.joueurCourant(j)))

@@ -1,3 +1,4 @@
+# coding: utf-8
 import Dialogue
 import Empilement
 import Exemplaires

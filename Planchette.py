@@ -1,3 +1,4 @@
+# coding: utf-8
 # Etape 2
 
 Epaisseur = 1

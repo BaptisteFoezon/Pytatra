@@ -1,5 +1,5 @@
+# coding: utf-8
 from tkinter import *
-
 import Planchette
 import Empilement
 import Fenetre

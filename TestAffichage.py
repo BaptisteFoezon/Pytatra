@@ -1,3 +1,4 @@
+# coding: utf-8
 import Fenetre
 import Planchette
 import VuePlanchette
