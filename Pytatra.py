@@ -2,7 +2,7 @@ from tkinter import *
 import Jeu
 import Fenetre
 import json
-
+import webbrowser
 
 
 def newGame():
@@ -22,8 +22,7 @@ def loadGame():
     Jeu.joue(jeu)
 
 
-welcomePage = Fenetre.cree(300, 100)
-canvas = Fenetre.toile(welcomePage)
+welcomePage = Fenetre.cree(350, 105)
 text = Label(canvas, text="PYTATRA")
 text.pack()
 boutons1 = Button(canvas, text="Nouvelle partie",
@@ -32,4 +31,10 @@ boutons1.pack()
 boutons2 = Button(canvas, text="Charger partie", command=lambda: [
                   Fenetre.tk(welcomePage).destroy(), loadGame()])
 boutons2.pack()
+text = Label(canvas, text="Lien vers le project GitHub")
+text.pack()
+link = Label(
+    canvas, text="https://github.com/BaptisteFoezon/Pytatra", fg="blue")
+link.pack()
+link.bind("<Button-1>", callback)
 Fenetre.affiche(welcomePage)
