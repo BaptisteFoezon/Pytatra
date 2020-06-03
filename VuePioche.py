@@ -12,7 +12,7 @@ import VuePlanchette
 def dessine(fenetre, pioche, gauche, color="blue"):
     marge = 70
     y = Fenetre.hauteur(fenetre) - 40 - Planchette.Epaisseur
-    for planchette in reversed(pioche):
+    for planchette in reversed(list(pioche)):
         txt = "{}x{} ".format(pioche[planchette], planchette)
         planchette = list(map(int, planchette))
         planchette = Planchette.cree(sum(planchette), planchette[0])
