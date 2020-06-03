@@ -54,8 +54,8 @@ def passeJoueurSuivant(jeu):
     jeu["courant"] = int(not jeu["courant"])
 
 
-def piocheJoueurCourant(jeu):
-    return Joueur.pioche(jeu[str(indiceJoueur(jeu))])
+def piocheJoueur(jeu):
+    return joueurCourant(jeu)[1]
 # Etape 5.2
 
 
@@ -74,9 +74,9 @@ def colorPlayer(jeu):
     retourne la couleur du joueur actuel
     """
     if indiceJoueur(jeu) == 0:
-        return "blue"
-    else:
         return "red"
+    else:
+        return "blue"
 
 
 def joue(jeu):
@@ -88,22 +88,29 @@ def joue(jeu):
 
 
 def verification(jeu):
-    if not piocheJoueurCourant(jeu):
-        print("EndGAme")
+    if Pile.desequilibre(pile(jeu)) or not piocheJoueur(jeu):
+        print("Fin du jeux")
+        askRejouer(jeu)
+
+
+def askRejouer(jeu):
+    if Fenetre.rejouer(fenetre(jeu)) == "yes":
+        Fenetre.quitte(fenetre(jeu))
+        jeu = cree()
+        joue(jeu)
     else:
-        print("continue")
+        Fenetre.quitte(fenetre(jeu))
 
 
 def majVues(jeu):
     Fenetre.effaceGraphiques(fenetre(jeu))
     VuePile.dessine(fenetre(jeu), pile(jeu))
-    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), 1, "blue")
-    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), 0, "red")
+    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), True, "blue")
+    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), False, "red")
 
 
 # Etape 5.3
 def click(fenetre, event, jeu):
-    print("click")
     x, y = event.x, event.y
     objet = fenetre[2].find_closest(x, y)
     tag = fenetre[2].gettags(objet)
@@ -128,7 +135,6 @@ def relachement(fenetre, event, jeu):
     xcenter = (x1 + x2)//2
     tag = fenetre[2].gettags(objet)[0]
     selection = tagToPlanch(tag)
-    Pioche.retire(piocheJoueurCourant(jeu), selection)
     largeurFenetre = 1000/10
     if Pile.sommet(pile(jeu)) is None:
         decalage = xcenter/10 - largeurFenetre/2
@@ -137,11 +143,11 @@ def relachement(fenetre, event, jeu):
         print(abssommet)
         decalage = (xcenter/10-largeurFenetre/2) - abssommet
     Pile.empileEtCalcule(jeu["pile"], selection, decalage, color)
-    Pioche.retire(piocheJoueurCourant(jeu), tag)
-    passeJoueurSuivant(jeu)
+    Pioche.retire(piocheJoueur(jeu), tag)
     majVues(jeu)
     sauvegarde(jeu)
     verification(jeu)
+    passeJoueurSuivant(jeu)
 
 
 def tagToPlanch(tag):
@@ -152,7 +158,6 @@ def tagToPlanch(tag):
 
 def sauvegarde(jeu, fin=False):
     """on sauvegarde l'etat de la partie apres chaque tout de jeux"""
-    print('sauvegarde')
     if not fin:
         jeu_copie = {}
         for key in jeu:

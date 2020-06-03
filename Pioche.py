@@ -45,6 +45,7 @@ def contient(pioche, numero):
 
 
 def retire(pioche, numero):
+    print(numero)
     if contient(pioche, numero) and pioche[str(numero)] > 0:
         pioche[str(numero)] -= 1
     if contient(pioche, numero) and pioche[str(numero)] == 0:

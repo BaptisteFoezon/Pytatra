@@ -76,3 +76,12 @@ def calculeEquilibre(pile):
         centreGeometriqueDessous = Empilement.centreGeometrique(dessous)
         if abs(centreGraviteDessus - centreGeometriqueDessous) > longueurDessous/2:
             Empilement.desequilibre(dessus, True)
+
+
+def desequilibre(pile):
+    for empilement in pile:
+        if empilement["desequilibre"]:
+            return True
+            break
+        else:
+            pass

@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import messagebox
+from tkinter.messagebox import *
 from tkinter.simpledialog import *
 # Etape 2
 
@@ -52,6 +52,10 @@ def afficheMessage(fenetre, message):
     messagebox.showinfo("", message)
 
 
+def rejouer(fenetre):
+    return askquestion("Pytatra", "voulez rejouer")
+
+
 def saisisTexte(fenetre, message):
     return askstring("", message, parent=tk(fenetre))
 
@@ -71,7 +75,7 @@ def quandOuverte(fenetre, fonction, argument):
 
 
 def quitte(fenetre):
-    tk(fenetre).quit()
+    tk(fenetre).destroy()
 
 
 def saisisFlottant(fenetre, message):
