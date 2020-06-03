@@ -12,9 +12,6 @@ import json
 
 # Etape 5.1
 
-selection = ""
-
-
 def cree():
     return {"fenetre": Fenetre.cree(1000, 600),
             "pile": Pile.cree(),
@@ -60,6 +57,7 @@ def joue(jeu):
 
 
 def majVues(jeu):
+    """ Met a jour les element du canvas """
     Fenetre.effaceGraphiques(fenetre(jeu))
     VuePile.dessine(fenetre(jeu), pile(jeu))
     VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), True, "blue")
@@ -68,27 +66,38 @@ def majVues(jeu):
 # Etape 5.3
 
 
+def getlongueur(selection):
+    """ retourne la longeur de la planchette selectionner """
+    return int(selection[0]) + int(selection[1])+int(selection[2])
+
+
+def getMarge(selection):
+    """ retourne la marge de la planchette selectionner """
+    return int(selection[0])
+
+
+def colorPlayer(jeu):
+    """
+    retourne la couleur du joueur actuel
+    """
+    if indiceJoueur(jeu) == 0:
+        return "blue"
+    else:
+        return "red"
+
+
 def activite(jeu):
     continuer = True
-    global selection
     desequilibre = False
     while continuer:
-        if indiceJoueur(jeu) == 0:
-            color = "blue"
-        else:
-            color = "red"
+        color = colorPlayer(jeu)
         joueur = indiceJoueur(jeu)
-        print(Pile.sommet(pile(jeu)))
-        pioche = jeu[str(joueur)][1]
+        pioche = piocheJoueur(jeu)
+        # si la pioche n'est pas vide et que l'empilement n'est pas en desequilibre
         if pioche and not desequilibre:
-            print("c'est au joueur n° {} de jouer ".format(joueur))
             selection = selectionnePlanchette(jeu)
-            if Pioche.contient(pioche, selection) is False:
-                while Pioche.contient(pioche, selection) is False:
-                    selection = selectionnePlanchette(jeu)
-            longueur = int(selection[0]) + \
-                int(selection[1])+int(selection[2])
-            marge = int(selection[0])
+            longueur = getlongueur(selection)
+            marge = getMarge(selection)
             Pioche.retire(piocheJoueur(jeu), selection)
             selection = Planchette.cree(longueur, marge)
             decalage = choisisDecalage(jeu, selection)
@@ -100,14 +109,18 @@ def activite(jeu):
         else:
             print("le joueur n° {} a gagné ".format(joueur))
             continuer = False
-            if Fenetre.rejouer(fenetre(jeu)) == "yes":
-                Fenetre.quitte(fenetre(jeu))
-                jeu = cree()
-                joue(jeu)
-            else:
-                Fenetre.quitte(fenetre(jeu))
+            askRejouer(jeu)
         majVues(jeu)
     sauvegarde(jeu, True)
+
+
+def askRejouer(jeu):
+    if Fenetre.rejouer(fenetre(jeu)) == "yes":
+        Fenetre.quitte(fenetre(jeu))
+        jeu = cree()
+        joue(jeu)
+    else:
+        Fenetre.quitte(fenetre(jeu))
 
 
 def selectionnePlanchette(jeu):
@@ -115,7 +128,7 @@ def selectionnePlanchette(jeu):
         " saississez votre planchette"
     selection = Fenetre.saisisTexte(
         fenetre(jeu), txt)
-    while selection is None:
+    while selection is None or Pioche.contient(piocheJoueur(jeu), selection)is False:
         selection = Fenetre.saisisTexte(
             fenetre(jeu), txt)
     if selection is not None:

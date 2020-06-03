@@ -54,7 +54,7 @@ def afficheMessage(fenetre, message):
 
 
 def saisisTexte(fenetre, message):
-    return askstring("", message, parent=tk(fenetre))
+    return askstring("", message)  # Fenetre.rejouer(fenetre(jeu))
 
 
 def saisisEntier(fenetre, message):
