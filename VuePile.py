@@ -19,7 +19,11 @@ def dessine(fenetre, pile):
         x1 = VuePlanchette.pixels(Empilement.centreGravite(
             empilement)) + Fenetre.largeur(fenetre)/2
         y1 = y + VuePlanchette.pixels(Planchette.Epaisseur / 2)
-        if Empilement.desequilibre(empilement):
+        dessinecroix(fenetre, empilement)
+
+
+def dessinecroix(fenetre, empilement):
+    if Empilement.desequilibre(empilement):
             color = "red"
         else:
             color = "green"
