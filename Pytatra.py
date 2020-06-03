@@ -21,7 +21,7 @@ def loadGame():
     Jeu.joue(jeu)
 
 
-welcomePage = Fenetre.cree(300, 100)
+welcomePage = Fenetre.cree(350, 150)
 canvas = Fenetre.toile(welcomePage)
 text = Label(canvas, text="PYTATRA")
 text.pack()
@@ -31,4 +31,8 @@ boutons1.pack()
 boutons2 = Button(canvas, text="Charger partie", command=lambda: [
                   Fenetre.tk(welcomePage).destroy(), loadGame()])
 boutons2.pack()
+text = Label(canvas, text="Lien vers le project GitHub")
+text.pack()
+text = Label(canvas, text="https://github.com/BaptisteFoezon/Pytatra")
+text.pack()
 Fenetre.affiche(welcomePage)
