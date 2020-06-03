@@ -53,12 +53,12 @@ def afficheMessage(fenetre, message):
     toile(fenetre).showinfo(" ", message)
 
 
-def saisisTexte(fenetre, message):
-    return askstring("", message)  # Fenetre.rejouer(fenetre(jeu))
+def saisisTexte(fenetre, message, titre=""):
+    return askstring(titre, message)
 
 
-def saisisEntier(fenetre, message):
-    return askinteger("", message)
+def saisisEntier(fenetre, message, titre=""):
+    return askinteger(titre, message)
 
 
 def rejouer(fenetre):

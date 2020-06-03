@@ -12,6 +12,7 @@ import json
 
 # Etape 5.1
 
+
 def cree():
     return {"fenetre": Fenetre.cree(1000, 600),
             "pile": Pile.cree(),
@@ -124,23 +125,25 @@ def askRejouer(jeu):
 
 
 def selectionnePlanchette(jeu):
+    titre = "Joueur n° " + str(indiceJoueur(jeu))
     txt = "Joueur n° " + str(indiceJoueur(jeu)) + \
         " saississez votre planchette"
     selection = Fenetre.saisisTexte(
-        fenetre(jeu), txt)
+        fenetre(jeu), txt, titre)
     while selection is None or Pioche.contient(piocheJoueur(jeu), selection)is False:
         selection = Fenetre.saisisTexte(
-            fenetre(jeu), txt)
+            fenetre(jeu), txt, titre)
     if selection is not None:
         return selection
 
 
 def choisisDecalage(jeu, planchetteAPoser):
+    titre = "Joueur n° " + str(indiceJoueur(jeu))
     txt = "Joueur n° " + str(indiceJoueur(jeu)) + \
         " choisit ton decalage"
-    decalage = Fenetre.saisisEntier(fenetre(jeu), txt)
+    decalage = Fenetre.saisisEntier(fenetre(jeu), txt, titre)
     while decalage is None:
-        decalage = Fenetre.saisisEntier(fenetre(jeu), txt)
+        decalage = Fenetre.saisisEntier(fenetre(jeu), txt, titre)
     if decalage is not None:
         return decalage
 
