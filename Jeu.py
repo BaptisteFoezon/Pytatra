@@ -46,6 +46,10 @@ def joueurCourant(jeu):
 def passeJoueurSuivant(jeu):
     jeu["courant"] = int(not jeu["courant"])
 
+
+def piocheJoueur(jeu):
+    return joueurCourant(jeu)[1]
+
 # Etape 5.2
 
 
@@ -84,8 +88,8 @@ def activite(jeu):
             longueur = int(selection[0]) + \
                 int(selection[1])+int(selection[2])
             marge = int(selection[0])
+            Pioche.retire(piocheJoueur(jeu), selection)
             selection = Planchette.cree(longueur, marge)
-            Pioche.retire(pioche, selection)
             decalage = choisisDecalage(jeu, selection)
             Pile.empileEtCalcule(jeu["pile"], selection, decalage, color)
             desequilibre = Pile.sommet(pile(jeu))["desequilibre"]
