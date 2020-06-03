@@ -17,13 +17,13 @@ def sommet(pile):
         return pile[len(pile)-1]
 
 
-def empile(pile, planchette, decalage):
+def empile(pile, planchette, decalage, color):
     if not estVide(pile):
         centre = Empilement.centreGeometrique(sommet(pile)) + decalage
     else:
         centre = 0
         masse = Planchette.longueur(planchette)
-    empilement = Empilement.cree(planchette, centre)
+    empilement = Empilement.cree(planchette, centre, color)
     pile.append(empilement)
 
 
@@ -41,8 +41,8 @@ def versChaine(pile):
     print('^'*20)
 
 
-def empileEtCalcule(pile, planchette, decalage):
-    empile(pile, planchette, decalage)
+def empileEtCalcule(pile, planchette, decalage, color):
+    empile(pile, planchette, decalage, color)
     calculeCentresGravite(pile)
     calculeEquilibre(pile)
 

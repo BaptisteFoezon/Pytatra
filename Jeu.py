@@ -58,8 +58,8 @@ def joue(jeu):
 def majVues(jeu):
     Fenetre.effaceGraphiques(fenetre(jeu))
     VuePile.dessine(fenetre(jeu), pile(jeu))
-    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), True)
-    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), False)
+    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["0"]), True, "blue")
+    VuePioche.dessine(fenetre(jeu), Joueur.pioche(jeu["1"]), False, "red")
 
 # Etape 5.3
 
@@ -68,6 +68,10 @@ def activite(jeu):
     global selection
     desequilibre = False
     while True:
+        if indiceJoueur(jeu) == 0:
+            color = "blue"
+        else:
+            color = "red"
         joueur = indiceJoueur(jeu)
         print(Pile.sommet(pile(jeu)))
         pioche = jeu[str(joueur)][1]
@@ -83,7 +87,7 @@ def activite(jeu):
             selection = Planchette.cree(longueur, marge)
             Pioche.retire(pioche, selection)
             decalage = choisisDecalage(jeu, selection)
-            Pile.empileEtCalcule(jeu["pile"], selection, decalage)
+            Pile.empileEtCalcule(jeu["pile"], selection, decalage, color)
             desequilibre = Pile.sommet(pile(jeu))["desequilibre"]
             passeJoueurSuivant(jeu)
             selection = ""
@@ -97,19 +101,23 @@ def activite(jeu):
 
 
 def selectionnePlanchette(jeu):
+    txt = "Joueur n° " + str(indiceJoueur(jeu)) + \
+        " saississez votre planchette"
     selection = Fenetre.saisisTexte(
-        fenetre(jeu), "saississez votre planchette")
+        fenetre(jeu), txt)
     while selection is None:
         selection = Fenetre.saisisTexte(
-            fenetre(jeu), "saississez votre planchette")
+            fenetre(jeu), txt)
     if selection is not None:
         return selection
 
 
 def choisisDecalage(jeu, planchetteAPoser):
-    decalage = Fenetre.saisisEntier(fenetre(jeu), "decalage")
+    txt = "Joueur n° " + str(indiceJoueur(jeu)) + \
+        " choisit ton decalage"
+    decalage = Fenetre.saisisEntier(fenetre(jeu), txt)
     while decalage is None:
-        decalage = Fenetre.saisisEntier(fenetre(jeu), "decalage")
+        decalage = Fenetre.saisisEntier(fenetre(jeu), txt)
     if decalage is not None:
         return decalage
 
