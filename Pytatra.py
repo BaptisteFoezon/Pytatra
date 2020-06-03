@@ -2,6 +2,11 @@ from tkinter import *
 import Jeu
 import Fenetre
 import json
+import webbrowser
+
+
+def callback(event):
+    webbrowser.open_new(r"https://github.com/BaptisteFoezon/Pytatra")
 
 
 def newGame():
@@ -33,6 +38,8 @@ boutons2 = Button(canvas, text="Charger partie", command=lambda: [
 boutons2.pack()
 text = Label(canvas, text="Lien vers le project GitHub")
 text.pack()
-text = Label(canvas, text="https://github.com/BaptisteFoezon/Pytatra")
-text.pack()
+link = Label(
+    canvas, text="https://github.com/BaptisteFoezon/Pytatra", fg="blue")
+link.pack()
+link.bind("<Button-1>", callback)
 Fenetre.affiche(welcomePage)
