@@ -69,9 +69,10 @@ def majVues(jeu):
 
 
 def activite(jeu):
+    continuer = True
     global selection
     desequilibre = False
-    while True:
+    while continuer:
         if indiceJoueur(jeu) == 0:
             color = "blue"
         else:
@@ -97,10 +98,15 @@ def activite(jeu):
             selection = ""
             sauvegarde(jeu)
         else:
-            print("le joueur n° {} a perdu ".format(joueur))
-            break
+            print("le joueur n° {} a gagné ".format(joueur))
+            continuer = False
+            if Fenetre.rejouer(fenetre(jeu)) == "yes":
+                Fenetre.quitte(fenetre(jeu))
+                jeu = cree()
+                joue(jeu)
+            else:
+                Fenetre.quitte(fenetre(jeu))
         majVues(jeu)
-    print("fin du jeux le joueur n°{} a gagné".format(indiceJoueur(jeu)))
     sauvegarde(jeu, True)
 
 

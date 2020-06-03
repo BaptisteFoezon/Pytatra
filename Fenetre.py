@@ -61,6 +61,10 @@ def saisisEntier(fenetre, message):
     return askinteger("", message)
 
 
+def rejouer(fenetre):
+    return askquestion("Pytatra", "voulez rejouer")
+
+
 def quandOuverte(fenetre, fonction, argument):
     def fonctionInterne(e):
         # pour éviter les invocations ultérieures
@@ -72,7 +76,7 @@ def quandOuverte(fenetre, fonction, argument):
 
 
 def quitte(fenetre):
-    tk(fenetre).quit()
+    tk(fenetre).destroy()
 
 
 def saisisFlottant(fenetre, message):
