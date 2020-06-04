@@ -1,5 +1,4 @@
 # coding: utf-8
-import Dialogue
 import Empilement
 import Exemplaires
 import Fenetre
@@ -71,9 +70,7 @@ def getMarge(selection):
 
 
 def colorPlayer(jeu):
-    """
-    retourne la couleur du joueur actuel
-    """
+    """ retourne la couleur du joueur actuel """
     if indiceJoueur(jeu) == 0:
         return "red"
     else:

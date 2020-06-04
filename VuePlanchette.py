@@ -12,10 +12,6 @@ def pixels(cm):
 
 
 def dessine(fenetre, planchette, x0, y0, color="blue"):
-    """
-
-    """
-
     eppaisseur = pixels(Planchette.Epaisseur)
     marge = pixels(Planchette.marge(planchette))
     longueur = pixels(Planchette.longueur(planchette))-2*marge
