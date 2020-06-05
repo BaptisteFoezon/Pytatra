@@ -50,7 +50,7 @@ def effaceGraphiques(fenetre):
 
 
 def afficheMessage(fenetre, message):
-    messagebox.showinfo("", message)
+    messagebox.showinfo("", message,  parent=tk(fenetre))
 
 
 def rejouer(fenetre, texte):
@@ -58,7 +58,12 @@ def rejouer(fenetre, texte):
 
 
 def saisisTexte(fenetre, message):
-    return askstring("", message, parent=tk(fenetre))
+    text = None
+    while text is None:
+        text = askstring("", message, parent=tk(fenetre))
+        if text is None:
+            afficheMessage(fenetre, "saisissez votre nom")
+    return text
 
 
 def saisisEntier(fenetre, message):

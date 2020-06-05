@@ -62,6 +62,8 @@ def joueurCourant(jeu):
 
 def passeJoueurSuivant(jeu):
     jeu["courant"] = int(not jeu["courant"])
+    Fenetre.afficheMessage(fenetre(jeu), "{} à ton tour".format(
+        getName(jeu, indiceJoueur(jeu))))
 
 
 def piocheJoueur(jeu):
