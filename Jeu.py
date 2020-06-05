@@ -18,11 +18,21 @@ def cree():
             "pile": Pile.cree(),
             "0": Joueur.cree(0),
             "1": Joueur.cree(1),
-            "courant": 0}
+            "courant": 0,
+            "name": ["", ""]}
 
 
 def fenetre(jeu):
     return jeu["fenetre"]
+
+
+def setName(jeu):
+    jeu["name"][0] = Fenetre.saisisTexte(fenetre(jeu), "Nom Joueur 0: ")
+    jeu["name"][1] = Fenetre.saisisTexte(fenetre(jeu), "Nom Joueur 1: ")
+
+
+def getName(jeu, indice):
+    return jeu["name"][indice]
 
 
 def pile(jeu):
@@ -88,6 +98,7 @@ def colorPlayer(jeu):
 
 
 def activite(jeu):
+    setName(jeu)
     continuer = True
     desequilibre = False
     while continuer:
@@ -108,15 +119,16 @@ def activite(jeu):
             selection = ""
             sauvegarde(jeu)
         else:
-            print("le joueur n° {} a gagné ".format(joueur))
+            print("{} a gagné ".format(getName(jeu, joueur)))
+            message = "{} a gagné ".format(getName(jeu, joueur))
             continuer = False
-            askRejouer(jeu)
+            askRejouer(jeu, message)
         majVues(jeu)
     sauvegarde(jeu, True)
 
 
-def askRejouer(jeu):
-    if Fenetre.rejouer(fenetre(jeu)) == "yes":
+def askRejouer(jeu, message):
+    if Fenetre.rejouer(fenetre(jeu), message) == "yes":
         Fenetre.quitte(fenetre(jeu))
         jeu = cree()
         joue(jeu)
@@ -125,9 +137,8 @@ def askRejouer(jeu):
 
 
 def selectionnePlanchette(jeu):
-    titre = "Joueur n° " + str(indiceJoueur(jeu))
-    txt = "Joueur n° " + str(indiceJoueur(jeu)) + \
-        " saississez votre planchette"
+    titre = getName(jeu, indiceJoueur(jeu))
+    txt = getName(jeu, indiceJoueur(jeu)) + " selectionne ta planchette"
     selection = Fenetre.saisisTexte(
         fenetre(jeu), txt, titre)
     while selection is None or Pioche.contient(piocheJoueur(jeu), selection)is False:
@@ -138,9 +149,8 @@ def selectionnePlanchette(jeu):
 
 
 def choisisDecalage(jeu, planchetteAPoser):
-    titre = "Joueur n° " + str(indiceJoueur(jeu))
-    txt = "Joueur n° " + str(indiceJoueur(jeu)) + \
-        " choisit ton decalage"
+    titre = getName(jeu, indiceJoueur(jeu))
+    txt = getName(jeu, indiceJoueur(jeu)) + " choisit ton decalage"
     decalage = Fenetre.saisisEntier(fenetre(jeu), txt, titre)
     while decalage is None:
         decalage = Fenetre.saisisEntier(fenetre(jeu), txt, titre)

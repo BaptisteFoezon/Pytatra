@@ -61,8 +61,8 @@ def saisisEntier(fenetre, message, titre=""):
     return askinteger(titre, message)
 
 
-def rejouer(fenetre):
-    return askquestion("Pytatra", "voulez rejouer")
+def rejouer(fenetre, message):
+    return askquestion("Pytatra", message)
 
 
 def quandOuverte(fenetre, fonction, argument):
