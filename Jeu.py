@@ -20,11 +20,21 @@ def cree():
             "0": Joueur.cree(0),
             "1": Joueur.cree(1),
             "courant": 0,
-            "selection": ''}
+            "selection": '',
+            "name": ['', ''], }
 
 
 def getSelection(jeu):
     return jeu["selection"]
+
+
+def setName(jeu):
+    jeu["name"][0] = Fenetre.saisisTexte(fenetre(jeu), "nom joueur 0:")
+    jeu["name"][1] = Fenetre.saisisTexte(fenetre(jeu), "nom joueur 1:")
+
+
+def getName(jeu, indice):
+    return jeu["name"][indice]
 
 
 def setSelection(jeu, selection):
@@ -82,6 +92,7 @@ def colorPlayer(jeu):
 
 def joue(jeu):
     Fenetre.quandOuverte(fenetre(jeu), majVues, jeu)
+    setName(jeu)
     Fenetre.quandClick(fenetre(jeu), click, jeu)
     Fenetre.quandDeplacement(fenetre(jeu), deplacement, jeu)
     Fenetre.quandBoutonRelache(fenetre(jeu), relachement, jeu)
@@ -89,13 +100,19 @@ def joue(jeu):
 
 
 def verification(jeu):
-    if Pile.desequilibre(pile(jeu)) or not piocheJoueur(jeu):
-        print("Fin du jeux")
-        askRejouer(jeu)
+    if Pile.desequilibre(pile(jeu)):
+        text = getName(jeu, indiceJoueur(jeu)) + \
+            " a gagné, voulez vous rejouer ?"
+        print(text)
+        askRejouer(jeu, text)
+    if not piocheJoueur(jeu):
+        text = "egalité""
+        print(text)
+        askRejouer(jeu, text)
 
 
-def askRejouer(jeu):
-    if Fenetre.rejouer(fenetre(jeu)) == "yes":
+def askRejouer(jeu, texte):
+    if Fenetre.rejouer(fenetre(jeu), texte) == "yes":
         Fenetre.quitte(fenetre(jeu))
         jeu = cree()
         joue(jeu)

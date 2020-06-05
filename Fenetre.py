@@ -53,8 +53,8 @@ def afficheMessage(fenetre, message):
     messagebox.showinfo("", message)
 
 
-def rejouer(fenetre):
-    return askquestion("Pytatra", "voulez rejouer")
+def rejouer(fenetre, texte):
+    return askquestion("Pytatra", texte)
 
 
 def saisisTexte(fenetre, message):
