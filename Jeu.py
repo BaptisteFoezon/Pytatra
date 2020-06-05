@@ -103,7 +103,7 @@ def verification(jeu):
         print(text)
         askRejouer(jeu, text)
     if not piocheJoueur(jeu):
-        text = "egalité""
+        text = "egalité"
         print(text)
         askRejouer(jeu, text)
 
